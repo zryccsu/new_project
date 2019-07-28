@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style type="text/css">
+		#mbd{
+			margin: 0 auto;
+			width: 500px;
+			height: 700px;
+			border: 1px solid #ccc;
+		}
+		table{
+			margin: 0 auto;
+		}
+		p{
+			margin: 0 auto;
+		}
+		ul{
+			list-style: none;
+			margin: 0 auto;
+		}
+		ul li{
+			margin-left: 2px;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<div id="mbd">
+		<table border="1">
+			<tr>
+				<th>序号</th>
+				<th>id</th>
+				<th>age</th>
+				<th>name</th>
+			</tr>
+			<tr th:each="person:${pageInfo.list}">
+				<th th:text=${(pageInfo.pageNum-1)*5+personStat.index+1}></th>
+				<th th:text="${person.id}"></th>
+				<th th:text="${person.age}"></th>
+				<th th:text="${person.name}"></th>
+			</tr>
+		</table>
+		<p >当前第<span th:text="${pageInfo.pageNum}"></span>页，总<span th:text="${pageInfo.pages}"></span>页，共<span th:text="${pageInfo.total}"></span>条记录</p>
+		<ul >
+			<li>
+				<a th:href="@{/getAllPerson}">首页</a>
+			</li>
+			<li>
+				<a th:href="@{/getAllPerson(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+			</li>
+			<li th:each="nav:${pageInfo.navigatepageNums}">
+				<a th:href="@{/getAllPerson(pageNum=${nav})}" th:text="${nav}"></a>
+			</li>
+			<li>
+				<a th:href="@{/getAllPerson(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+			</li>
+			<li>
+				<a th:href="@{/getAllPerson(pageNum=${pageInfo.pages})}">尾页</a>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
